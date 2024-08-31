@@ -5,11 +5,12 @@ from langchain.chains import LLMChain
 
 from third_parties.linkedin import scrape_linkedin_profile
 
-if __name__ == "__main__":
-    load_dotenv()
+from agents.linkedin_lookup_agent import lookup
 
-    print("Hello LangChain")
-
+def ice_break_with(name: str):
+    linkedin_username = lookup(name = name)
+    linkedin_data = scrape_linkedin_profile(linkedin_profile_url=linkedin_username, mock = True)
+    
     summary_template = """
     given the Linkedin information {information} about a person I want you to create:
     1. A short summary
@@ -22,10 +23,11 @@ if __name__ == "__main__":
 
     llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
 
-    chain = LLMChain(llm=llm, prompt=summary_prompt_template)
-    linkedin_data = scrape_linkedin_profile(
-        linkedin_profile_url="https://www.linkedin.com/in/eden-marco/"
-    )
+    chain = summary_prompt_template |llm
     res = chain.invoke(input={"information": linkedin_data})
-
     print(res)
+if __name__ == "__main__":
+    load_dotenv()
+    print("ICE Breaker add")
+    
+    ice_break_with(name = "eden marco udemy")

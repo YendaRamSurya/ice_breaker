@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-from tools.tools import get_profile_url_tavily
+# from tools.tools import get_profile_url_tavily
 from langchain_core.prompts.prompt import PromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_core.tools import Tool
@@ -11,7 +11,23 @@ from langchain.agents import (
     AgentExecutor,
 )
 from langchain import hub
-from tools.tools import get_profile_url_tavily
+# from tools.tools import get_profile_url_tavily
+
+from langchain_community.tools.tavily_search import TavilySearchResults
+
+def get_profile_url_tavily(name: str) -> str:
+    """searches for linkedin or twitter profile page
+
+    Args:
+        name (str): _description_
+
+    Returns:
+        str: _description_
+    """
+    
+    search = TavilySearchResults()
+    res = search.run(f"{name}")
+    return res[0]["url"]
 
 def lookup(name: str) -> str:
     
@@ -40,5 +56,9 @@ def lookup(name: str) -> str:
     
     linkedin_profile_url = result["output"]
     
-    return "https://www.linkedin.com/in/eden-marco/"
+    return linkedin_profile_url
+
+if __name__ == "__main__":
+    name = input("Enter the name of the person: ")
+    print(lookup(name))
 
