@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/intro-to-vector-dbs
+/intro-to-vector-dbs/rag-gist-3-ingestion-implementation/.idea
+/intro-to-vector-dbs/rag-gist-4-retrieval-implementation-chains/.idea
